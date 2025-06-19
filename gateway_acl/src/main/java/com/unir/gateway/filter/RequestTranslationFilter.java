@@ -26,10 +26,8 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class RequestTranslationFilter implements GlobalFilter {
 
-    /**
-     * RequestBodyExtractor to extract the body of the request
-     * RequestDecoratorFactory to create a decorator for the request.
-     */
+     // RequestBodyExtractor saves the information about the request body.
+     // RequestDecoratorFactory to create a decorator for the request.
     private final RequestBodyExtractor requestBodyExtractor;
     private final RequestDecoratorFactory requestDecoratorFactory;
 
@@ -43,6 +41,8 @@ public class RequestTranslationFilter implements GlobalFilter {
      * @param exchange the current server web exchange
      * @param chain the gateway filter chain
      * @return a Mono<Void> that indicates when request handling is complete
+     *
+     * This method is asynchronous and returns a Mono<Void> to indicate when the request handling is complete.
      */
     @Override
     public Mono<Void> filter(
@@ -59,13 +59,16 @@ public class RequestTranslationFilter implements GlobalFilter {
         } else {
             return DataBufferUtils.join(exchange.getRequest().getBody())
                     .flatMap(dataBuffer -> {
+                        // Obtain the request body using the RequestBodyExtractor
                         GatewayRequest request = requestBodyExtractor.getRequest(exchange, dataBuffer);
+                        //
                         ServerHttpRequest mutatedRequest = requestDecoratorFactory.getDecorator(request);
                         //RouteToRequestUrlFilter writes the URI to the exchange attributes *before* any global filters run.
                         exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR, mutatedRequest.getURI());
                         if(request.getQueryParams() != null) {
                             request.getQueryParams().clear();
                         }
+                        // Proxy the request to the downstream service
                         log.info("Proxying request: {} {}", mutatedRequest.getMethod(), mutatedRequest.getURI());
                         return chain.filter(exchange.mutate().request(mutatedRequest).build());
                     });
