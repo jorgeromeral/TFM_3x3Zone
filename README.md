@@ -1,1 +1,0 @@
-# TFM_3x3Zone
