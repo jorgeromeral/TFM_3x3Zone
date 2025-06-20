@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>com.unir</groupId>
-    <artifactId>gateway-filters</artifactId>
+    <artifactId>gateway_acl</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gateway</name>
+    <name>gateway_acl</name>
     <description>Gateway o Proxy Inverso con filtros</description>
     <properties>
         <java.version>21</java.version>
@@ -33,6 +33,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
             <optional>true</optional>
         </dependency>
         <dependency>

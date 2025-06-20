@@ -29,7 +29,7 @@ public class GetRequestDecorator extends ServerHttpRequestDecorator {
         this.gatewayRequest = gatewayRequest;
     }
 
-    /**
+     /**
      * This method overrides the getMethod method of the ServerHttpRequestDecorator class.
      * It returns the HTTP method of the request, which is GET.
      *
