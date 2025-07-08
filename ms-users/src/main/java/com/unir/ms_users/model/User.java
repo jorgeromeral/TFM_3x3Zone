@@ -1,11 +1,6 @@
 package com.unir.ms_users.model;
 
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -33,4 +28,8 @@ public class User {
 
     @Column
     private Integer level;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

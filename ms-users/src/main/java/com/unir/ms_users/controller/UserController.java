@@ -15,11 +15,13 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    // Crear un nuevo usuario
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user) {
         return ResponseEntity.ok(service.create(user));
     }
 
+    // Obtener usuario por ID (ver perfil de usuario)
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Long id) {
         return service.getById(id)
@@ -27,12 +29,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /*@PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User login) {
-        return service.login(login.getEmail(), login.getPassword())
-                .map(user -> ResponseEntity.ok("Hola " + user.getName()))
-                .orElse(ResponseEntity.status(401).body("Usuario y/o contraseña incorrectos"));
-    }*/
+    // Login de usuario registrado
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> loginData) {
         return service.login(loginData.get("email"), loginData.get("password"))
