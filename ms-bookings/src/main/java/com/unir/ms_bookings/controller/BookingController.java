@@ -15,12 +15,14 @@ public class BookingController {
 
     private final BookingService bookingService;
 
+    // Obtener reservas de pistas por rangos de horas
     @GetMapping("/court/{courtId}")
     public ResponseEntity<List<Booking>> getBookingsByCourt(@PathVariable Long courtId) {
         List<Booking> booking = bookingService.getByCourt(courtId);
         return ResponseEntity.ok(booking);
     }
 
+    // Reservar pista, franja horaria
     @PatchMapping("/{bookingId}/reserve")
     public ResponseEntity<String> reserveBooking(@PathVariable Long bookingId) {
         return bookingService.reserve(bookingId)
@@ -28,6 +30,7 @@ public class BookingController {
                 : ResponseEntity.status(400).body("No se ha podido realizar la reserva"); // Si es false
     }
 
+    // Cancelar reserva de pista
     @PatchMapping("/{bookingId}/cancel")
     public ResponseEntity<String> cancelBooking(@PathVariable Long bookingId) {
         return bookingService.cancel(bookingId)

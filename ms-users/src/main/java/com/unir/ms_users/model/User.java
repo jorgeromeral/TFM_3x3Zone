@@ -20,6 +20,12 @@ public class User {
     @Column
     private String name;
 
+    @Column
+    private String surname;
+
+    @Column
+    private String location;
+
     @Column(unique = true)
     private String email;
 
