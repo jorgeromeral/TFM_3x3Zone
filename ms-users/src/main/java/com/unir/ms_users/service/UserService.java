@@ -23,17 +23,21 @@ public class UserService {
         return usersRepository.findById(id);
     }
 
-    public User patchUser(Long id, User user) {
-        User actualUser = usersRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        if(user.getName() != null) actualUser.setName(user.getName());
-        if(user.getSurname() != null) actualUser.setSurname(user.getSurname());
-        if(user.getLocation() != null) actualUser.setLocation(user.getLocation());
-        if(user.getEmail() != null) actualUser.setEmail(user.getEmail());
-        if(user.getLevel() != null) actualUser.setLevel(user.getLevel()); // TODO: Otra forma de actualizar el nivel
-        if(user.getPassword() != null) actualUser.setPassword(user.getPassword()); //TODO: Otra forma de actualizar la contraseña
+    public boolean patchUser(Long id, User data) {
+        Optional <User> actualUser = usersRepository.findById(id);
 
-        return usersRepository.save(actualUser);
+        if (actualUser.isPresent()) {
+            User user = actualUser.get();
+            if(data.getSurname() != null) user.setSurname(data.getSurname());
+            if(data.getName() != null) user.setName(data.getName());
+            if(data.getLocation() != null) user.setLocation(data.getLocation());
+            if(data.getEmail() != null) user.setEmail(data.getEmail());
+            if(data.getLevel() != null) user.setLevel(data.getLevel()); // TODO: Otra forma de actualizar el nivel
+            if(data.getPassword() != null) user.setPassword(data.getPassword()); //TODO: Otra forma de actualizar la contraseña
+            usersRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     public boolean deleteUser(Long id) {

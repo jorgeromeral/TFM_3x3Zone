@@ -31,14 +31,15 @@ public class UserController {
 
     // Actualizar usuario (modificar perfil)
     @PatchMapping("/{id}")
-    public ResponseEntity<User> patchUser(@PathVariable Long id, @RequestBody User userData) {
-        User updatedUser = userService.patchUser(id, userData);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<String> patchUser(@PathVariable Long id, @RequestBody User userData) {
+        return userService.patchUser(id, userData)
+                ? ResponseEntity.ok("Usuario modificado")
+                : ResponseEntity.status(404).body("Usuario no encontrado");
     }
 
     // Eliminar usuario
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         return userService.deleteUser(id)
                 ? ResponseEntity.ok("Usuario eliminado")
                 : ResponseEntity.status(404).body("Usuario no encontrado");

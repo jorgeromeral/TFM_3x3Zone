@@ -29,7 +29,7 @@ public class ClubController {
 
     //Modificar club existente
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Club club) {
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Club club) {
         return service.update(id, club)
                 ? ResponseEntity.ok("Club actualizado")
                 : ResponseEntity.status(404).body("Club no encontrado");
@@ -37,7 +37,7 @@ public class ClubController {
 
     // Eliminar club
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         return service.delete(id)
                 ? ResponseEntity.ok("Club eliminado")
                 : ResponseEntity.status(404).body("Club no encontrado");
