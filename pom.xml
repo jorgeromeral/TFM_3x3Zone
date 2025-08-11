@@ -16,7 +16,6 @@
         <module>ms-users</module>
         <module>ms-matches</module>
         <module>ms-bookings</module>
-        <module>ms-searchs</module>
         <!--<module>ms-payments</module>
         <module>ms-teams</module>-->
     </modules>

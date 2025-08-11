@@ -1,13 +1,13 @@
-package com.example.ms_searchs;
+package com.unir.ms_clubs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsSearchsApplication {
+public class MsClubsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsSearchsApplication.class, args);
+		SpringApplication.run(MsClubsApplication.class, args);
 	}
 
 }

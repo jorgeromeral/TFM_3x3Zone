@@ -1,10 +1,10 @@
-package com.example.ms_searchs;
+package com.unir.ms_clubs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsSearchsApplicationTests {
+class MsClubsApplicationTests {
 
 	@Test
 	void contextLoads() {

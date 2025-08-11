@@ -1,12 +1,10 @@
 package com.unir.ms_bookings.controller;
 
-import com.unir.ms_bookings.model.Booking;
 import com.unir.ms_bookings.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -14,13 +12,6 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService bookingService;
-
-    // Obtener reservas de pistas por rangos de horas
-    @GetMapping("/court/{courtId}")
-    public ResponseEntity<List<Booking>> getBookingsByCourt(@PathVariable Long courtId) {
-        List<Booking> booking = bookingService.getByCourt(courtId);
-        return ResponseEntity.ok(booking);
-    }
 
     // Reservar pista, franja horaria
     @PatchMapping("/{bookingId}/reserve")
