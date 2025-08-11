@@ -1,7 +1,7 @@
-package com.unir.ms_bookings.controller;
+package com.unir.ms_clubs.controller;
 
-import com.unir.ms_bookings.model.Club;
-import com.unir.ms_bookings.service.ClubService;
+import com.unir.ms_clubs.model.Club;
+import com.unir.ms_clubs.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,19 @@ public class ClubController {
 
     private final ClubService service;
 
-    // Obtener clubes por ubicación (clubes que se muestran por defecto en la app)
+    @GetMapping
+    public ResponseEntity<List<Club>> getAll() {
+        return ResponseEntity.ok(service.getAll()); // Por defecto, devuelve todos los clubes
+    }
+
+    // obterner club por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Club> getById(@PathVariable Long id) {
+        return service.getById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(404).build());
+    }
+    // Obtener clubes por ubicación
     @GetMapping
     public ResponseEntity<List<Club>> getByLocation(@RequestParam String location) {
         return ResponseEntity.ok(service.getByLocation(location));

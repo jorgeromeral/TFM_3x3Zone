@@ -1,5 +1,5 @@
 
-package com.unir.ms_bookings.model;
+package com.unir.ms_clubs.model;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,13 +1,16 @@
-package com.unir.ms_bookings.service;
+package com.unir.ms_clubs.service;
 
-import com.unir.ms_bookings.model.Booking;
-import com.unir.ms_bookings.model.Club;
-import com.unir.ms_bookings.model.Court;
-import com.unir.ms_bookings.repository.BookingRepository;
-import com.unir.ms_bookings.repository.ClubRepository;
-import com.unir.ms_bookings.repository.CourtRepository;
+import com.unir.ms_clubs.model.Court;
+import com.unir.ms_clubs.model.CourtBooking;
+import com.unir.ms_clubs.repository.ClubRepository;
+import com.unir.ms_clubs.repository.CourtRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +23,10 @@ public class CourtService {
 
     private final CourtRepository courtRepository;
     private final ClubRepository clubRepository;
-    private final BookingRepository bookingRepository;
+
+    // Usamos RestTemplate para realizar peticiones HTTP al servicio Booking para generar slots de reservas
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String bookingsServiceUrl = "http://ms-bookings/api/bookings";
 
     // En base al club Id filtra las pistas ue pertenezcan a ese ID del club
     public List<Court> getByClub(Long clubId) {
@@ -30,6 +36,7 @@ public class CourtService {
     }
 
     public Court create(Court court) {
+        // TODO: Nº de días NO debe ser fijo
         generateSlots(court, 7); // Genera slots para 7 días
         return courtRepository.save(court);
     }
@@ -63,12 +70,23 @@ public class CourtService {
             LocalTime current = court.getOpeningTime(); // hora de apertura de la pista --> INICIO
             // Generar slots de horas desde la apertura hasta el cierre
             while (current.isBefore(court.getClosingTime().plusSeconds(1))) {
-                bookingRepository.save(Booking.builder()
-                        .court(court)
-                        .startDateTime(day.atTime(current))
-                        .endDateTime(day.atTime(current).plusMinutes(court.getSlotMinutes()))
-                        .available(true) // disponible para reserva
-                        .build());
+                CourtBooking booking = CourtBooking.builder()
+                    .courtId(court.getId())
+                    .startDateTime(day.atTime(current))
+                    .endDateTime(day.atTime(current).plusMinutes(court.getSlotMinutes()))
+                    .available(true) // disponible para reserva
+                    .build();
+
+                // Enviar la reserva al servicio de bookings
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<CourtBooking> request = new HttpEntity<>(booking, headers); // Se establece el body del post
+
+                ResponseEntity<String> response = restTemplate.postForEntity(bookingsServiceUrl, request, String.class);
+                if (!response.getStatusCode().is2xxSuccessful()) {
+                    throw new RuntimeException("Error al crear el booking en ms-bookings");
+                }
+
                 current = current.plusMinutes(court.getSlotMinutes());
             }
         }

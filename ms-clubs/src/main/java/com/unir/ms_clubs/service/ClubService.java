@@ -1,7 +1,7 @@
-package com.unir.ms_bookings.service;
+package com.unir.ms_clubs.service;
 
-import com.unir.ms_bookings.model.Club;
-import com.unir.ms_bookings.repository.ClubRepository;
+import com.unir.ms_clubs.model.Club;
+import com.unir.ms_clubs.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,10 @@ import java.util.Optional;
 public class ClubService {
 
     private final ClubRepository repository;
+
+    public List<Club> getAll() { return repository.findAll(); }
+
+    public Optional<Club> getById(Long clubId) { return repository.findById(clubId); }
 
     public List<Club> getByLocation(String location) {
         return repository.findByLocation(location);

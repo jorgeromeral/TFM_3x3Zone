@@ -1,8 +1,8 @@
 
-package com.unir.ms_bookings.repository;
+package com.unir.ms_clubs.repository;
 
-import com.unir.ms_bookings.model.Court;
-import com.unir.ms_bookings.model.Club;
+import com.unir.ms_clubs.model.Court;
+import com.unir.ms_clubs.model.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

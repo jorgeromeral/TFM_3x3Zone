@@ -1,7 +1,7 @@
-package com.unir.ms_bookings.controller;
+package com.unir.ms_clubs.controller;
 
-import com.unir.ms_bookings.model.Court;
-import com.unir.ms_bookings.service.CourtService;
+import com.unir.ms_clubs.model.Court;
+import com.unir.ms_clubs.service.CourtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class CourtController {
     private final CourtService service;
 
     // Obtener pistas de un club en concreto
-    @GetMapping("/club/{clubId}")
+    @GetMapping("/club/{clubId}/courts")
     public ResponseEntity<List<Court>> getByClub(@PathVariable Long clubId) {
         return ResponseEntity.ok(service.getByClub(clubId));
     }
@@ -28,7 +28,7 @@ public class CourtController {
     }
 
     // Actualizar pista existente
-    @PutMapping("/{id}")
+    @PutMapping("/club/{clubId}/courts/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Court court) {
         return service.update(id, court)
                 ? ResponseEntity.ok("Pista actualizada")
@@ -36,7 +36,7 @@ public class CourtController {
     }
 
     // Eliminar pista
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/club/{clubId}/courts/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id)
                 ? ResponseEntity.ok("Pista eliminada")
