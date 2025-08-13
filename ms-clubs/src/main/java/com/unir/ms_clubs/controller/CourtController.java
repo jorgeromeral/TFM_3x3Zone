@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courts")
+@RequestMapping("/api/clubs/courts")
 @RequiredArgsConstructor
 public class CourtController {
 
     private final CourtService service;
 
     // Obtener pistas de un club en concreto
-    @GetMapping("/club/{clubId}/courts")
+    @GetMapping("/{clubId}")
     public ResponseEntity<List<Court>> getByClub(@PathVariable Long clubId) {
         return ResponseEntity.ok(service.getByClub(clubId));
     }
@@ -28,7 +28,7 @@ public class CourtController {
     }
 
     // Actualizar pista existente
-    @PutMapping("/club/{clubId}/courts/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Court court) {
         return service.update(id, court)
                 ? ResponseEntity.ok("Pista actualizada")
@@ -36,7 +36,7 @@ public class CourtController {
     }
 
     // Eliminar pista
-    @DeleteMapping("/club/{clubId}/courts/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return service.delete(id)
                 ? ResponseEntity.ok("Pista eliminada")

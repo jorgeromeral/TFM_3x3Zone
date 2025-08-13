@@ -23,7 +23,7 @@ public class Club {
     @Column
     private String location; // city
 
-    @Column(unique = true)
+    @Column()
     private String address;
 
     @Column

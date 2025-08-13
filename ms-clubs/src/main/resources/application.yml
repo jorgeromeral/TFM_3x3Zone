@@ -1,8 +1,8 @@
 spring:
   application:
-    name: ms-matches
+    name: ms-clubs
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/ms-matches}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/ms-clubs}
     driverClassName: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
     username: ${DB_USER:root}
     password: ${DB_PASSWORD:}
@@ -19,11 +19,11 @@ spring:
   #      web-allow-others: true # Allow access from web
 
 
-# Configuraciï¿½n de instancia
+# Configuración de instancia
 server:
-  port: 8081
+  port: 8083
 
-#Configuraciï¿½n Eureka
+#Configuración Eureka
 eureka:
   client:
     service-url:
@@ -32,4 +32,4 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
-    hostname: ms-matches
+    hostname: ms-clubs
