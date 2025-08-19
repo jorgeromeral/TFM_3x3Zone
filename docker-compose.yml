@@ -1,84 +1,98 @@
 version: "3.8"
 
 services:
-  frontend:
-    build: ./front-end
-    container_name: frontend
-    ports:
-      - "80:80"
-    networks:
-      - app-network
+  #frontend:
+  #  build: ./frontend
+  #  container_name: frontend
+  #  ports:
+  #    - "5173:5173"
+  #  networks:
+  #    - app-network
 
-  eureka-server:
+  eureka:
     build: ./eureka
-    container_name: eureka-server
+    container_name: eureka_server
     ports:
       - "8761:8761"
     networks:
       - app-network
 
   gateway:
-    build: ./gatewayACL
-    container_name: gateway
+    build: ./gateway_acl
+    container_name: gateway_acl
     ports:
       - "8762:8762"
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-    depends_on:
-      - eureka-server
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
     networks:
       - app-network
 
-  ms-books-catalogue:
-    build: ./ms-books-catalogue
-    container_name: ms-books-catalogue
-    environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-    depends_on:
-      - eureka-server
-      - elasticsearch
-    networks:
-      - app-network
+  ms-users:
+    build: ./ms-users
+    container_name: ms-users
     ports:
       - "8080:8080"
-
-  ms-books-payments:
-    build: ./ms-books-payments
-    container_name: ms-books-payments
+    env_file:
+      - .env
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
-    depends_on:
-      - eureka-server
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
     networks:
       - app-network
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
-    container_name: elasticsearch
+  ms-matches:
+    build: ./ms-matches
+    container_name: ms-matches
+    env_file:
+      - .env
     environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+    networks:
+      - app-network
     ports:
-      - "9200:9200"
-    networks:
-      - app-network
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      retries: 5
+      - "8081:8081"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.17.10
-    container_name: kibana
+  ms-bookings:
+    build: ./ms-bookings
+    container_name: ms-bookings
+    env_file:
+      - .env
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
     networks:
       - app-network
+    ports:
+      - "8082:8082"
+
+  ms-clubs:
+    build: ./ms-clubs
+    container_name: ms-clubs
+    env_file:
+      - .env
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+    networks:
+      - app-network
+    ports:
+      - "8083:8083"
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes: #Guarda los datos de MySQL en un volumen persistente
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql_data:

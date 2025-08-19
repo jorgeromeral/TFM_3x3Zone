@@ -5,12 +5,13 @@ import com.unir.ms_bookings.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BookingService {
 
     private final BookingRepository bookingRepository;
-    private final CourtRepository courtRepository;
 
     // Reservar una franja existente
     public boolean reserve(Long bookingId) {
@@ -36,4 +37,14 @@ public class BookingService {
         return true;
     }
 
+    // Crear una nueva reserva
+    public Booking create(Booking booking) {
+        booking.setAvailable(true); // Por defecto, al crear una reserva, está disponible
+        return bookingRepository.save(booking);
+    }
+
+    // Obtener todas las reservas (opcional, para ver el estado de las reservas)
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
 }

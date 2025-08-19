@@ -1,5 +1,6 @@
 package com.unir.ms_clubs.service;
 
+import com.unir.ms_clubs.model.Club;
 import com.unir.ms_clubs.model.Court;
 import com.unir.ms_clubs.model.CourtBooking;
 import com.unir.ms_clubs.repository.ClubRepository;
@@ -26,7 +27,7 @@ public class CourtService {
 
     // Usamos RestTemplate para realizar peticiones HTTP al servicio Booking para generar slots de reservas
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String bookingsServiceUrl = "http://ms-bookings/api/bookings";
+    private final String bookingsServiceUrl = "http://ms-bookings:8082/api/bookings";
 
     // En base al club Id filtra las pistas ue pertenezcan a ese ID del club
     public List<Court> getByClub(Long clubId) {
@@ -35,9 +36,13 @@ public class CourtService {
                 .orElse(List.of()); // lista vacia
     }
 
-    public Court create(Court court) {
+    public Court create(Court court, Long clubId) {
         // TODO: Nº de días NO debe ser fijo
-        generateSlots(court, 7); // Genera slots para 7 días
+        generateSlots(court, 7);// Genera slots para 7 días
+        // Asignar el club a la pista antes de guardarla
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new RuntimeException("Club not found with id: " + clubId));
+        court.setClub(club);
         return courtRepository.save(court);
     }
 
@@ -45,8 +50,11 @@ public class CourtService {
         Optional<Court> optionalCourt = courtRepository.findById(id);
         if (optionalCourt.isPresent()) {
             Court court = optionalCourt.get();
-            court.setName(data.getName());
-            court.setCourtType(data.getCourtType());
+            if (data.getName() != null) court.setName(data.getName());
+            if (data.getCourtType() != null) court.setCourtType(data.getCourtType());
+            if (data.getOpeningTime() != null) court.setOpeningTime(data.getOpeningTime());
+            if (data.getClosingTime() != null) court.setClosingTime(data.getClosingTime());
+            if (data.getSlotMinutes() > 0) court.setSlotMinutes(data.getSlotMinutes());
             courtRepository.save(court);
             return true;
         }

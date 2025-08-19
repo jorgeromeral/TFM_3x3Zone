@@ -5,6 +5,7 @@ import com.unir.ms_users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,9 @@ public class UserService {
     public User create(User user) {
         return usersRepository.save(user);
     }
+
+    // Obtener todos los usuarios
+    public List<User> getAll() { return usersRepository.findAll(); }
 
     // Ver info de un usuario (Entrar en perfil)
     public Optional<User> getById(Long id) {

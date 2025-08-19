@@ -27,11 +27,6 @@ public class ClubController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).build());
     }
-    // Obtener clubes por ubicación
-    @GetMapping
-    public ResponseEntity<List<Club>> getByLocation(@RequestParam String location) {
-        return ResponseEntity.ok(service.getByLocation(location));
-    }
 
     // Crear club nuevo
     @PostMapping

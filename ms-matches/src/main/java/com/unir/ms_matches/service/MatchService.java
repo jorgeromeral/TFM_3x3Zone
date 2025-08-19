@@ -24,6 +24,7 @@ public class MatchService {
             match.setMinPlayers(10);
             match.setMaxPlayers(14);
         }
+        match.setNumPlayers(0); // Inicializa el número de jugadores a 0
         return matchRepository.save(match);
     }
 
@@ -39,10 +40,11 @@ public class MatchService {
         Optional<Match> optionalMatch = matchRepository.findById(matchId);
         if (optionalMatch.isPresent()) {
             Match match = optionalMatch.get();
-            // Se comprueba el tamaño de lista para el estado del partido
+            // Primero se compruba que el usuario no está añadido y que no sobrepasa el máximo
             if (!match.getPlayersId().contains(playerId) && match.getPlayersId().size() < match.getMaxPlayers()) {
                 match.getPlayersId().add(playerId);
                 updateMatchStatus(match); // Actualiza el estado del partido
+                match.setNumPlayers(match.getPlayersId().size()); // Actualiza el número de jugadores
                 matchRepository.save(match);
                 return true;
             }
@@ -56,6 +58,7 @@ public class MatchService {
             Match match = optionalMatch.get();
             if (match.getPlayersId().contains(playerId)) {
                 match.getPlayersId().remove(playerId);
+                match.setNumPlayers(match.getPlayersId().size()); // Actualiza el número de jugadores
                 if (match.getPlayersId().isEmpty()) {
                     matchRepository.deleteById(matchId); // Elimina el partido si no quedan jugadores
                 } else {
@@ -68,6 +71,16 @@ public class MatchService {
         return false;
     }
 
+    //Elimina un partido por ID
+    public boolean deleteMatch(Long matchId) {
+        if (matchRepository.existsById(matchId)) {
+            matchRepository.deleteById(matchId);
+            return true;
+        }
+        return false;
+    }
+
+    //Se comprueba el tamaño de lista para el estado del partido
     public void updateMatchStatus(Match match) {
         int numPlayers = match.getPlayersId().size();
         int min = match.getMinPlayers();

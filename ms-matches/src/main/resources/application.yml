@@ -2,10 +2,10 @@ spring:
   application:
     name: ms-matches
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/ms-matches}
-    driverClassName: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:}
+    url: jdbc:mysql://mysql:3306/TFM?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_ROOT_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
@@ -19,15 +19,15 @@ spring:
   #      web-allow-others: true # Allow access from web
 
 
-# Configuraci�n de instancia
+# Configuracion de instancia
 server:
   port: 8081
 
-#Configuraci�n Eureka
+#Configuracion Eureka
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:

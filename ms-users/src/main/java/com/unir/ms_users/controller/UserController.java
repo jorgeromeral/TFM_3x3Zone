@@ -21,6 +21,12 @@ public class UserController {
         return ResponseEntity.ok(userService.create(user));
     }
 
+    //Obtener todos los usuarios
+    @GetMapping
+    public ResponseEntity<Iterable<User>> getAll() {
+        return ResponseEntity.ok(userService.getAll());
+    }
+
     // Obtener usuario por ID (ver perfil de usuario)
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Long id) {

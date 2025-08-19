@@ -20,12 +20,12 @@ public class Booking {
     private Long id;
 
     @Column
-    private Long court_id;
+    private Long courtId;
 
-    @Column(unique = true)
+    @Column
     private LocalDateTime startDateTime;
 
-    @Column(unique = true)
+    @Column
     private LocalDateTime endDateTime;
 
     @Column

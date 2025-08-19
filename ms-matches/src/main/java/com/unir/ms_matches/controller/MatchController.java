@@ -52,4 +52,13 @@ public class MatchController {
                 ? ResponseEntity.ok("Te has salido del partido.")
                 : ResponseEntity.badRequest().body("No estás inscrito al partido");
     }
+
+    // Eliminar un partido (TODO: solo si el usuario es el creador del partido)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteMatch(@PathVariable Long id) {
+        boolean deleted = matchService.deleteMatch(id);
+        return deleted
+                ? ResponseEntity.ok("Partido eliminado correctamente.")
+                : ResponseEntity.badRequest().body("No se pudo eliminar el partido");
+    }
 }

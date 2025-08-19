@@ -40,9 +40,11 @@ public class Match {
     @Column
     private int numPlayers;
 
+    // Auto generados al crear partido
     @Column
     private int minPlayers; // Número mínimo de jugadores para iniciar el partido
 
+    // Auto generados al crear partido
     @Column
     private int maxPlayers; // Número máximo de jugadores permitidos en el partido
 

@@ -18,10 +18,6 @@ public class ClubService {
 
     public Optional<Club> getById(Long clubId) { return repository.findById(clubId); }
 
-    public List<Club> getByLocation(String location) {
-        return repository.findByLocation(location);
-    }
-
     public Club create(Club club) {
         return repository.save(club);
     }
