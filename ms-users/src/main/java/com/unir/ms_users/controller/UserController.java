@@ -1,6 +1,7 @@
 package com.unir.ms_users.controller;
 
 import com.unir.ms_users.model.User;
+import com.unir.ms_users.model.UserLoginDto;
 import com.unir.ms_users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,11 +52,22 @@ public class UserController {
                 : ResponseEntity.status(404).body("Usuario no encontrado");
     }
 
-    // Login de usuario registrado
+    /* Login de usuario registrado
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Map<String, String> loginData) {
         return userService.login(loginData.get("email"), loginData.get("password"))
                 .map(user -> ResponseEntity.ok("Hola: " + user.getName()))
                 .orElse(ResponseEntity.status(401).body("Usuario y/o contraseña incorrectos"));
+    }*/
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
+        return userService.login(loginData.get("email"), loginData.get("password"))
+                .map(user -> {
+                    // Devuelve info que será necesaria guardar del usuario (como el id) a conocer cuando se ha loggeado
+                    UserLoginDto userDTO = new UserLoginDto(user.getId(), user.getName(), user.getEmail(), user.getLocation());
+                    return ResponseEntity.ok(userDTO);
+                })
+                .orElse(ResponseEntity.status(401).body(null));
     }
 }

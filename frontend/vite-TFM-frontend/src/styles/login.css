@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+#landing {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#landing__content {
+    text-align: center;
+    margin-top: 10%;
+    padding: 20px; 
+    background-color: #2c3e50; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    color: #ecf0f1; 
+}
+
+#landing__h1 {
+    font-family: 'Playfair Display', serif; 
+    font-weight: 700; 
+    margin-bottom: 10px;
+    color: #ecf0f1; 
+}
+
+#landing__h3 {
+    font-style: italic; 
+    font-family: 'Indie Flower', cursive; 
+    margin-bottom: 30px;
+    color: #bdc3c7; 
+}
+
+#landing__img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    background-color: #ecf0f1;
+}
+
