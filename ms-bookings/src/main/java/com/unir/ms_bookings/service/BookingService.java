@@ -47,4 +47,14 @@ public class BookingService {
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
+
+    // Obtener reservas por ID de pista
+    public List<Booking> getBookingsByCourtId(Long courtId) {
+        return bookingRepository.findByCourtId(courtId);
+    }
+
+    // vaciar tabla entera de courts (para testing)
+    public void clearAll() {
+        bookingRepository.deleteAll();
+    }
 }

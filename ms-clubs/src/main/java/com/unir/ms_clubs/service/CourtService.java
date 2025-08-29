@@ -37,13 +37,17 @@ public class CourtService {
     }
 
     public Court create(Court court, Long clubId) {
-        // TODO: Nº de días NO debe ser fijo
-        generateSlots(court, 7);// Genera slots para 7 días
         // Asignar el club a la pista antes de guardarla
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new RuntimeException("Club not found with id: " + clubId));
         court.setClub(club);
-        return courtRepository.save(court);
+
+        Court savedCourt = courtRepository.save(court); // Guardar la pista para obtener su ID
+
+        // TODO: Nº de días NO debe ser fijo
+        generateSlots(savedCourt, 7);// Genera slots para 7 días
+
+        return savedCourt;
     }
 
     public boolean update(Long id, Court data) {

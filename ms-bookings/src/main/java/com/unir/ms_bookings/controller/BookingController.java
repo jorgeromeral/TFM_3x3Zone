@@ -44,5 +44,17 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
+    // Obtener reservas por ID de pista
+    @GetMapping("/court/{courtId}")
+    public ResponseEntity<List<Booking>> getBookingsByCourtId(@PathVariable Long courtId) {
+        return ResponseEntity.ok(bookingService.getBookingsByCourtId(courtId));
+    }
+
+    // Elimina todos los registros de la tabla (para pruebas)
+    @DeleteMapping("/clear")
+    public ResponseEntity<String> clearAll() {
+        bookingService.clearAll();
+        return ResponseEntity.ok("Todos los registros de la tabla han sido eliminados");
+    }
 
 }

@@ -52,14 +52,7 @@ public class UserController {
                 : ResponseEntity.status(404).body("Usuario no encontrado");
     }
 
-    /* Login de usuario registrado
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> loginData) {
-        return userService.login(loginData.get("email"), loginData.get("password"))
-                .map(user -> ResponseEntity.ok("Hola: " + user.getName()))
-                .orElse(ResponseEntity.status(401).body("Usuario y/o contraseña incorrectos"));
-    }*/
-
+    // Login de usuario
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         return userService.login(loginData.get("email"), loginData.get("password"))

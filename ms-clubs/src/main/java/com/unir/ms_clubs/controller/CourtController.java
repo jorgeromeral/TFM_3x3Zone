@@ -42,4 +42,5 @@ public class CourtController {
                 ? ResponseEntity.ok("Pista eliminada")
                 : ResponseEntity.status(404).body("Pista no encontrada");
     }
+
 }

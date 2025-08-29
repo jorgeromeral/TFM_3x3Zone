@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 import { useState } from "react";
+// Estado para la fecha seleccionada en el filtro
+import { formatBookingSlot } from "../utils/formatBookingSlot";
 
 export const ClubDetails = () => {
     // Usando el hook useParams para obtener el ID del club
@@ -15,7 +17,7 @@ export const ClubDetails = () => {
             body: {}
         }
     );
-    // Petición para obtener reservas de las pistas
+    // Petición para obtener las pistas del club
     const { fetchResponse: courtResponse, loading, error } = useFetch(
         `${apiUrl}/ms-clubs/api/courts/${id}`,
         { 
@@ -26,7 +28,21 @@ export const ClubDetails = () => {
     );
     // Estado para la pestaña activa
     const [activeTab, setActiveTab] = useState(0);
+    // Estado para la fecha seleccionada
+    const [selectedDate, setSelectedDate] = useState("");
     const pistas = Array.isArray(courtResponse) ? courtResponse : courtResponse?.pistas || [];
+
+    // Petición para obtener los bookings de la pista activa
+    const courtId = pistas[activeTab]?.id;
+    const bookingsUrl = courtId ? `${apiUrl}/ms-bookings/api/bookings/court/${courtId}` : null;
+    const { fetchResponse: bookingsResponse, loading: bookingsLoading, error: bookingsError } = useFetch(
+        bookingsUrl,
+        {
+            method: "GET",
+            queryParams: {},
+            body: {}
+        }
+    );
 
     return (
         <div className="mt-4">
@@ -46,7 +62,7 @@ export const ClubDetails = () => {
             <h4>Pistas</h4>
             {loading && <p>Cargando pistas...</p>}
             {error && <p>Error al cargar pistas</p>}
-            <div className="d-flex mb-3">
+            <div className="d-flex mb-3 align-items-center">
                 {pistas.map((pista, index) => (
                     <button
                         key={pista.id}
@@ -56,11 +72,25 @@ export const ClubDetails = () => {
                         {pista.name}
                     </button>
                 ))}
+                {/* Filtro por día */}
+                <div style={{ marginLeft: "auto", marginRight: "2rem" }}>
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={e => setSelectedDate(e.target.value)}
+                        className="form-control"
+                        style={{ width: "160px" }}
+                    />
+                </div>
             </div>
             {/* Horario y reservas de la pista activa */}
             {pistas[activeTab] && (
                 <div>
                     <h6>{pistas[activeTab].name}</h6>
+                    {bookingsLoading && <p>Cargando slots...</p>}
+                    {bookingsError && (!Array.isArray(bookingsResponse) || bookingsResponse.length === 0) && (
+                        <p className="text-danger">{bookingsError.message ? bookingsError.message : String(bookingsError)}</p>
+                    )}
                     <div className="table-responsive">
                         <table className="table table-bordered">
                             <thead>
@@ -70,12 +100,23 @@ export const ClubDetails = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pistas[activeTab].reservas?.map((reserva, i) => (
-                                    <tr key={i}>
-                                        <td>{reserva.hora}</td>
-                                        <td>{reserva.ocupada ? "Ocupada" : "Disponible"}</td>
-                                    </tr>
-                                ))}
+                                {Array.isArray(bookingsResponse) && bookingsResponse.length > 0 ? (
+                                    bookingsResponse
+                                        .filter(booking => {
+                                            if (!selectedDate) return true;
+                                            // Formatear la fecha de inicio del slot a YYYY-MM-DD
+                                            const slotDate = new Date(booking.startDateTime).toISOString().slice(0, 10);
+                                            return slotDate === selectedDate;
+                                        })
+                                        .map((booking) => (
+                                            <tr key={booking.id}>
+                                                <td>{formatBookingSlot(booking)}</td>
+                                                <td>{booking.available ? "Disponible" : "Ocupada"}</td>
+                                            </tr>
+                                        ))
+                                ) : (
+                                    <tr><td colSpan="2">No hay slots disponibles</td></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
