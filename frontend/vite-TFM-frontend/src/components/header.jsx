@@ -1,6 +1,9 @@
 import { Link } from "react-router";
 
 export const Header = () => {
+    // Obtener el rol desde localStorage
+    const role = localStorage.getItem("userRole");
+    const isAdmin = role === "ADMIN";
 
     return (
         <header className="border-bottom bg-white">
@@ -14,6 +17,9 @@ export const Header = () => {
                     <nav className="d-flex">
                         <Link to="/clubs" className="nav-link px-3">Clubes</Link>
                         <Link to="/matches" className="nav-link px-3">Partidos</Link>
+                                                {isAdmin && (
+                                                    <Link to="/admin" className="nav-link px-3">Admin</Link>
+                                                )}
                     </nav>
                     <Link to="/profile" className="ms-4">
                         <img src="/user.svg" width="32" height="32" alt="User Icon"/>

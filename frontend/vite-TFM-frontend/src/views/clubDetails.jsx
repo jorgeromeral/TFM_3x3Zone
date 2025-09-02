@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // Estado para la fecha seleccionada en el filtro
 import { formatBookingSlot } from "../utils/formatBookingSlot";
 
@@ -44,6 +45,42 @@ export const ClubDetails = () => {
         }
     );
 
+    // Realizar reserva
+    const handleBooking =  async (booking) => {
+        if (booking.available){
+            // Función para reservar un slot
+            const response = await fetch(`${apiUrl}/ms-bookings/api/bookings/${booking.id}/reserve`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    targetMethod: "PATCH",
+                    queryParams: {},
+                    body: { available: false }
+                })
+            });
+            // Opcional: puedes mostrar una confirmación o refrescar la lista de bookings
+            if (response.ok) {
+                alert("Reserva realizada");
+            } else {
+                alert("Error al reservar");
+            }
+        }
+    };
+
+    const navigate = useNavigate();
+    const handleMatch = (booking) => {
+        // Navegar a la vista de crear partido y pasar datos del slot
+        navigate("/createMatch", {
+            // Le pasamos la información del slot de reserva
+            state: {
+                slotData: {
+                    location: clubResponse?.location,
+                    dateTime: booking.startDateTime
+                }
+            }
+        });
+    };
+
     return (
         <div className="mt-4">
             <h2>Detalles del Club</h2>
@@ -73,13 +110,12 @@ export const ClubDetails = () => {
                     </button>
                 ))}
                 {/* Filtro por día */}
-                <div style={{ marginLeft: "auto", marginRight: "2rem" }}>
+                <div className="ml-auto mr-2">
                     <input
                         type="date"
                         value={selectedDate}
                         onChange={e => setSelectedDate(e.target.value)}
                         className="form-control"
-                        style={{ width: "160px" }}
                     />
                 </div>
             </div>
@@ -112,6 +148,22 @@ export const ClubDetails = () => {
                                             <tr key={booking.id}>
                                                 <td>{formatBookingSlot(booking)}</td>
                                                 <td>{booking.available ? "Disponible" : "Ocupada"}</td>
+                                                <td>
+                                                    <button
+                                                        onClick={() => handleBooking(booking)}
+                                                        className={`btn btn-sm ${booking.available ? "btn-success" : "btn-secondary"}`}
+                                                        disabled={!booking.available}
+                                                    >
+                                                        Reservar
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleMatch(booking)}
+                                                        className={`btn btn-sm mx-4 ${booking.available ? "btn-primary" : "btn-secondary"}`}
+                                                        disabled={!booking.available}
+                                                    >
+                                                        Crear partido
+                                                    </button>
+                                                </td>
                                             </tr>
                                         ))
                                 ) : (

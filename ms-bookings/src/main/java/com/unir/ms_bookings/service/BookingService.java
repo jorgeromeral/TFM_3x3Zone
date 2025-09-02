@@ -53,6 +53,12 @@ public class BookingService {
         return bookingRepository.findByCourtId(courtId);
     }
 
+    // Eliminar las reservas de un court específico (al eliminar court auto)
+    public void clearFromCourt(Long courtId) {
+        List<Booking> bookings = bookingRepository.findByCourtId(courtId);
+        bookingRepository.deleteAll(bookings);
+    }
+
     // vaciar tabla entera de courts (para testing)
     public void clearAll() {
         bookingRepository.deleteAll();

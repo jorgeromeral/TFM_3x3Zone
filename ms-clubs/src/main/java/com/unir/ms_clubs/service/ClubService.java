@@ -2,6 +2,7 @@ package com.unir.ms_clubs.service;
 
 import com.unir.ms_clubs.model.Club;
 import com.unir.ms_clubs.repository.ClubRepository;
+import com.unir.ms_clubs.repository.CourtRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

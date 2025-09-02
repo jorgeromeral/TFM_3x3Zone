@@ -50,6 +50,13 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingsByCourtId(courtId));
     }
 
+    // Elimina todas las reservas (slots) de un court
+    @DeleteMapping("/clear/{courtId}")
+    public ResponseEntity<String> clearFromCourt(@PathVariable Long courtId) {
+        bookingService.clearFromCourt(courtId);
+        return ResponseEntity.ok("Todos los registros de la tabla han sido eliminados");
+    }
+
     // Elimina todos los registros de la tabla (para pruebas)
     @DeleteMapping("/clear")
     public ResponseEntity<String> clearAll() {

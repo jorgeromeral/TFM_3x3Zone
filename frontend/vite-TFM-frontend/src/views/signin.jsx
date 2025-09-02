@@ -93,6 +93,7 @@ export const Signin = () => {
                                         <select className="form-select" id="role" value={role} onChange={e => setRole(e.target.value)} required>
                                             <option value="PLAYER">PLAYER</option>
                                             <option value="CLUB">CLUB</option>
+                                            {/*La opcion de usuario admin no se puede seleccionar desde aqui */}
                                         </select>
                                     </div>
                                 </div>

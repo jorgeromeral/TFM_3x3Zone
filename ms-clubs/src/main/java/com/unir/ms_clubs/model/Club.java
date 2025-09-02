@@ -3,6 +3,8 @@ package com.unir.ms_clubs.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "clubs")
 @Getter
@@ -34,4 +36,5 @@ public class Club {
 
     @Column
     private Long ownerId; // Id del usuario (role=club) que es el dueño del club
+
 }

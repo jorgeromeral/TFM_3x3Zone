@@ -30,9 +30,10 @@ export const Login = () => {
                 })
             });
             if (response.ok) {
-                const { id, email } = await response.json(); // Obtenemos el valor del id devuelto por el backend
+                const { id, email, role } = await response.json(); // Obtenemos el valor del id devuelto por el backend
                 localStorage.setItem('userId', id); // Guarda el id del usuario en localStorage para usarlo mas en adelante
                 localStorage.setItem('userEmail', email); // Guarda el email del usuario en localStorage
+                localStorage.setItem('userRole', role); // Guarda el rol del usuario en localStorage
                 navigate('/clubs');
             } else {
                 setError('Usuario o contraseña incorrectos');

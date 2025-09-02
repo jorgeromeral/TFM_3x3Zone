@@ -45,7 +45,7 @@ public class CourtService {
         Court savedCourt = courtRepository.save(court); // Guardar la pista para obtener su ID
 
         // TODO: Nº de días NO debe ser fijo
-        generateSlots(savedCourt, 7);// Genera slots para 7 días
+        generateSlots(savedCourt, 10);// Genera slots para 7 días
 
         return savedCourt;
     }

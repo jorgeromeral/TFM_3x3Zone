@@ -1,4 +1,4 @@
-import "../styles/searchbar.css";
+import "../styles/searchBar.css";
 import { Locations } from "./locations";
 import { useState } from "react";
 
