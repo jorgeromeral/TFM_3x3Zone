@@ -1,11 +1,7 @@
+import "../styles/matchCard.css";
 
 // Obtener la URL base de la API
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
-
-
-
-
-
 
 export const MatchCard = ({ id, minLevel, matchType, status, location, playersId }) => {
     const userId = localStorage.getItem("userId");
@@ -60,7 +56,7 @@ export const MatchCard = ({ id, minLevel, matchType, status, location, playersId
     };
 
     return (
-        <div className="card shadow p-0 m-3 rounded-4 border-0 text-start bg-light position-relative">
+        <div id="matchCard" className="card shadow p-0 m-3 rounded-4 border-0 text-start bg-light position-relative">
             <div className="card-body d-flex flex-column justify-content-between">
                 <div>
                     <div className="position-absolute top-0 end-0 translate-middle bg-white rounded-circle shadow border border-secondary d-flex align-items-center justify-content-center fw-bold" style={{ width: '48px', height: '48px', fontSize: '18px' }}>

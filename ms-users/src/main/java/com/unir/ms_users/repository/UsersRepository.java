@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends JpaRepository<User, Long> { //<Entity, ID>
-    // Metodo para login simple
-    Optional<User> findByEmail(String email); // Optional para obligarme a tratar el caso null
+    Optional<User> findByEmail(String email);// Optional para obligarme a tratar el caso null
 }

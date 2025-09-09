@@ -32,7 +32,7 @@ public class BookingController {
                 : ResponseEntity.status(400).body("No se ha podido cancelar la reserva"); // Si es false
     }
 
-    // Crear reservas (Auto desde courts)
+    // Crear reservas (Automático desde courts)
     @PostMapping
     public ResponseEntity<Booking> create(@RequestBody Booking booking) {
         return ResponseEntity.status(201).body(bookingService.create(booking));

@@ -41,11 +41,9 @@ public class CourtService {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new RuntimeException("Club not found with id: " + clubId));
         court.setClub(club);
-
         Court savedCourt = courtRepository.save(court); // Guardar la pista para obtener su ID
-
         // TODO: Nº de días NO debe ser fijo
-        generateSlots(savedCourt, 10);// Genera slots para 7 días
+        generateSlots(savedCourt, 10);// Genera slots para 10 días
 
         return savedCourt;
     }

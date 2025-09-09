@@ -1,0 +1,105 @@
+#club_card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    height: 200px;
+    min-width: 220px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 16px; 
+    overflow: hidden;
+    transition: transform 0.2s; 
+    background: #eee;
+    margin: 1rem auto;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    /* Añadido para animación de zoom */
+    transition: background-size 0.2s;
+}
+
+#club_card:hover {
+    transform: scale(1.02);
+}
+
+#club_card img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+#club_card img:hover {
+    transform: scale(1.05); 
+}
+
+#club_card .club_card-content {
+    position: absolute; /* Fija el contenido */
+    left: 0;
+    right: 0;
+    bottom: 0; /* Siempre pegado abajo */
+    width: 100%;
+    background: rgba(255,255,255,0.92);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px 10px 18px;
+    min-height: 0;
+    min-width: 0;
+    max-height: 34%; /* Menos de un tercio del card */
+    box-sizing: border-box;
+    gap: 10px;
+}
+
+.club_card-title {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 2px;
+    font-weight: bold;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.club_card-location {
+    font-size: 0.95rem;
+    color: #34495e;
+    margin-bottom: 0;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.club_card-address {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 0;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+#club_card .btn {
+    font-size: 15px;
+    padding: 4px 18px;
+    min-width: unset;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    #club_card {
+        height: 150px;
+        max-width: 98vw;
+        border-radius: 10px;
+    }
+    #club_card .club_card-content {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        padding: 7px 8px 7px 8px;
+        gap: 6px;
+    }
+    .club_card-title { font-size: 0.95rem; }
+    .club_card-location { font-size: 0.8rem; }
+    .club_card-address { font-size: 0.7rem; }
+    #club_card .btn { font-size: 13px; padding: 3px 10px; }
+}

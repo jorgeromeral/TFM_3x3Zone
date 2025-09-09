@@ -57,8 +57,10 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         return userService.login(loginData.get("email"), loginData.get("password"))
                 .map(user -> {
-                    // Devuelve info que será necesaria guardar del usuario (como el id) a conocer cuando se ha loggeado
-                    UserLoginDto userDTO = new UserLoginDto(user.getId(), user.getName(), user.getEmail(), user.getLocation(), user.getRole().toString());
+                    // Devuelve info que será necesaria guardar del usuario (como el id) a conocer
+                    // cuando se ha loggeado
+                    UserLoginDto userDTO = new UserLoginDto(user.getId(), user.getName(),
+                            user.getEmail(), user.getLocation(), user.getRole().toString());
                     return ResponseEntity.ok(userDTO);
                 })
                 .orElse(ResponseEntity.status(401).body(null));

@@ -17,7 +17,9 @@ public class ClubService {
 
     public List<Club> getAll() { return repository.findAll(); }
 
-    public Optional<Club> getById(Long clubId) { return repository.findById(clubId); }
+    public Optional<Club> getById(Long clubId) {
+        return repository.findById(clubId);
+    }
 
     public Club create(Club club) {
         return repository.save(club);

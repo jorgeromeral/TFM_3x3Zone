@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
+import "../styles/clubCard.css";
 
-// Componente para mostrar la información de un club. El id se utiliza para mostrar despues los detalles
+// Componente para mostrar la información de un club
 export const ClubCard = ({ id, name, location, address }) => (
-    <div className="card shadow p-0 m-3 rounded-4 border-0 text-start bg-light">
-        <div className= "rounded-top-4">
-            <img
-                src="club.jpg"
-                alt={name}
-                className="w-100 rounded-top-4 object-fit-cover d-block"
-                height="190"
-            />
-        </div>
-        <div className="card-body d-flex flex-column justify-content-between">
-            <div>
-                <h5 className="card-title fw-bold mb-2">{name}</h5>
-                <p className="card-text mb-1">{location}</p>
-                <p className="card-text text-muted mb-2">{address}</p>
+    <div
+        id="club_card"
+        className="card shadow p-0 m-3 border-0 text-start bg-light"
+        style={{
+            backgroundImage: `url('club.jpg')`
+        }}
+    >
+        <div className="club_card-content">
+            <div style={{ minWidth: 0, flex: 1 }}>
+                <div className="club_card-title">{name}</div>
+                <div className="club_card-location">{location}</div>
+                <div className="club_card-address">{address}</div>
             </div>
-            <Link to={`/clubdetails/${id}`} className="btn btn-primary btn-lg mt-3 align-self-start rounded-pill">
+            <Link
+                to={`/clubdetails/${id}`}
+                className="btn btn-primary rounded-pill ms-2"
+            >
                 Reserva
             </Link>
         </div>

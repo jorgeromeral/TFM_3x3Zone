@@ -8,7 +8,7 @@ services:
       - "5173:5173"
     networks:
       - app-network
-
+  
   eureka:
     build: ./eureka
     container_name: eureka_server
